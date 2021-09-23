@@ -156,14 +156,18 @@ To verify the domain name value in the Organization Relationship, follow these s
 2. In Windows PowerShell, run the following command:
 
     ```powershell
-    Get-OrganizationRelationship -Identity "Exchange Online to On Premises Organization Relationship" | FL
+    Get-OrganizationRelationship -Identity "O365 to On-premises*" | FL
     ```
 
-3. Check **DomainName** value. The vanity domain (`yourdomain.com`) should be present.
-4. If the **DomainName** value is missing your vanity domain, run the following command:
+3. Check **DomainNames** value. The vanity domain (`yourdomain.com`) should be present.
+4. If the **DomainNames** value is missing your vanity domain, run the following command:
 
     ```powershell
-    Set-OrganizationRelationship -Identity "Exchange Online to On Premises Organization Relationship" -DomainName yourdomain.com
+    $org= Get-OrganizationRelationship -Identity "O365 to On-premises*" 
+    $org.domainnames
+    $org.domainnames.add(domain1.com)
+    $org.domainnames.add(domainx.com)
+    Set-OrganizationRelationship -Identity $org.Identity -DomainNames $org.DomainNames
     ```
 
  **Did this solve your issue?**
